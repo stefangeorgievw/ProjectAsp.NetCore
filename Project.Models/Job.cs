@@ -8,13 +8,18 @@ namespace Project.Models
 {
    public class Job
     {
+        public Job()
+        {
+            this.Categories = new HashSet<Category>();
+        }
+
         public string Id { get; set; }
 
         public string UserId { get; set; }
-        public IProfile User { get; set; }
+        public Account User { get; set; }
 
         public string CompanyId { get; set; }
-        public IProfile Company { get; set; }
+        public Account Company { get; set; }
 
         public JobStatus Status { get; set; }
 

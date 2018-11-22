@@ -12,6 +12,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Project.Data\Project.Data.csproj" />
+    <ProjectReference Include="..\Project.Models\Project.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
 </Project>
