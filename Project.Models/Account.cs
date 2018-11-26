@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Project.Models.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Project.Models
 {
     public class Account : IdentityUser
     {
-        public string ProfileId { get; set; }
-        public IProfile Profile { get; set; }
+        public string UserProfileId { get; set; }
+        public UserProfile UserProfile { get; set; } = null;
 
+        public string CompanyProfileId { get; set; }
+        public CompanyProfile CompanyProfile { get; set; } = null;
 
+      
     }
 }

@@ -8,8 +8,6 @@ namespace Project.Models.Interfaces
     {
         string Id { get; set; }
 
-        ICollection<Job> Jobs { get; set; }
-
-       ICollection<Contract> Contracts { get; set; }
+        
     }
 }

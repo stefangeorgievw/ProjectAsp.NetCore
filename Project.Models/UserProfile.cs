@@ -6,11 +6,7 @@ namespace Project.Models
 {
     public class UserProfile:IProfile
     {
-        public UserProfile()
-        {
-            this.Contracts = new HashSet<Contract>();
-            this.Jobs = new HashSet<Job>();
-        }
+       
 
         public string Id { get; set; } =  Guid.NewGuid().ToString();
 
@@ -21,9 +17,11 @@ namespace Project.Models
 
         public string LastName { get; set; }
 
-        public ICollection<Job> Jobs { get; set; }
+        public ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
 
-        public ICollection<Contract> Contracts { get; set; }
-      
+        public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+
+
+
     }
 }
