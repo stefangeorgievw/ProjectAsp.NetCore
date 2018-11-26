@@ -13,5 +13,36 @@ namespace Project.Web.Data
             : base(options)
         {
         }
+
+        public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<CompanyProfile> CompaniesProfiles { get; set; }
+
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public DbSet<Job> Jobs { get; set; }
+
+        public DbSet<Contract> Contracts { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Account>()
+                   .HasOne(a => a.CompanyProfile)
+                   .WithOne(c => c.Account)
+                   .HasForeignKey<CompanyProfile>(c => c.AccountId);
+
+            builder.Entity<Account>()
+                   .HasOne(a => a.UserProfile)
+                   .WithOne(u => u.Account)
+                   .HasForeignKey<UserProfile>(u => u.AccountId);
+
+
+        }
+
+
     }
 }
