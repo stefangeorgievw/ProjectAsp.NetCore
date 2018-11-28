@@ -14,7 +14,7 @@ namespace Project.Web.Data
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        
 
         public DbSet<CompanyProfile> CompaniesProfiles { get; set; }
 

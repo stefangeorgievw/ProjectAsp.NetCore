@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Models", "Project.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Services", "Project.Services\Project.Services.csproj", "{82E3C67B-13AA-4DFE-A58C-C884F20C1635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Common", "Project.Common\Project.Common.csproj", "{8B7C2D0C-5787-43AB-8720-26BF6434A58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Common", "Project.Common\Project.Common.csproj", "{8B7C2D0C-5787-43AB-8720-26BF6434A58A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{AD51D3C2-FADB-457D-BC5B-D51A2E8F4AFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8B7C2D0C-5787-43AB-8720-26BF6434A58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B7C2D0C-5787-43AB-8720-26BF6434A58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B7C2D0C-5787-43AB-8720-26BF6434A58A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD51D3C2-FADB-457D-BC5B-D51A2E8F4AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD51D3C2-FADB-457D-BC5B-D51A2E8F4AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD51D3C2-FADB-457D-BC5B-D51A2E8F4AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD51D3C2-FADB-457D-BC5B-D51A2E8F4AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

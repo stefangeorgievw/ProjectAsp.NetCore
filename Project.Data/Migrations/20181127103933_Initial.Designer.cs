@@ -10,7 +10,7 @@ using Project.Web.Data;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181126151506_Initial")]
+    [Migration("20181127103933_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
