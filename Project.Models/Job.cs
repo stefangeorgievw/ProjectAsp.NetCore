@@ -1,5 +1,5 @@
 ﻿using Project.Models.Enums;
-using Project.Models.Interfaces;
+using Project.Models.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;

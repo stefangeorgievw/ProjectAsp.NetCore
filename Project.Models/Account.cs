@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Project.Models.Interfaces;
+using Project.Models.Contracts;
 using System.Collections.Generic;
 
 namespace Project.Models

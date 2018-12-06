@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Project.Models.Interfaces
+namespace Project.Models.Contracts
 {
     public interface IProfile
     {
