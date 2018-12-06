@@ -33,9 +33,7 @@ namespace Sandbox
         private static void SandboxCode(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<ApplicationDbContext>();
-            var user = context.Users.FirstOrDefault(x => x.Email == "stefangeorgievw@abv.bg");
-
-            Console.WriteLine(user.Email);
+            
         }
 
         private static void ConfigureServices(ServiceCollection services)
