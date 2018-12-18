@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +26,12 @@ namespace Project.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            //AutoMapperConfig.RegisterMappings(
+            //   typeof().Assembly,
+            //   typeof().Assembly);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -59,14 +64,24 @@ namespace Project.Web
                 options.Password.RequireUppercase = false;
             })
                .AddDefaultTokenProviders()
-               .AddDefaultUI()
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.ConfigureApplicationCookie(options =>
+            { options.LoginPath =new PathString("/Account/Login");
+                options.LogoutPath = new PathString("/Account/Logout");
+                //options.AccessDeniedPath = new PathString("Home/Index");
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+           
+
             services.AddAutoMapper();
 
             // Custom Services
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IJobService, JobService>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,9 +106,12 @@ namespace Project.Web
 
             app.UseMvc(routes =>
             {
-
-            
                 routes.MapRoute(
+           name: "areas",
+           template: "{area:exists}/{controller=Job}/{action=Index}/{id?}");
+
+
+               routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

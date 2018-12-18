@@ -1,0 +1,48 @@
+﻿@model Project.Web.Areas.User.ViewModels.MyJobsViewModel
+
+<div class="container">
+   
+    <div class="row myJobsRow">
+        <div class="col form-control MyJobsCol">
+
+            <h3>Waiting for Offers:</h3>
+            <hr />
+            @if (!Model.WaitingForCompanyJobs.Any())
+            {
+                <h5>None</h5>
+            }
+            @foreach (var job in Model.WaitingForCompanyJobs)
+            {
+                <h5>@job.Title</h5>
+            }
+        </div>
+        <div class="col form-control MyJobsCol">
+            <h3>In Progress:</h3>
+            <hr />
+            @if (!Model.InProgressJobs.Any())
+            {
+                <h5>None</h5>
+            }
+            @foreach (var job in Model.InProgressJobs)
+            {
+                <h5>@job.Title</h5>
+            }
+        </div>
+        <div class="col form-control">
+            <h3>Finished:</h3>
+            <hr />
+            @if (!Model.FinishedJobs.Any())
+            {
+                <h5>None</h5>
+            }
+            @foreach (var job in Model.FinishedJobs)
+            {
+                <h5>@job.Title</h5>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+

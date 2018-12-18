@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Project.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Project.Services.Contracts;
 using Project.Web.ViewModels.Account;
 using System.Threading.Tasks;
@@ -10,7 +7,8 @@ namespace Project.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private static string homeUrl = "/";
+        private static string loginUrl = "/Account/Login";
+        private static string homeUrl = "/Home/Index";
         private IAccountService accountService;
 
         public AccountController(IAccountService accountService)
@@ -41,7 +39,7 @@ namespace Project.Web.Controllers
 
           await  this.accountService.CreateUser(model.Email,model.Username, model.FirstName, model.LastName,model.Password);
 
-            return this.Redirect(homeUrl);
+            return this.Redirect(loginUrl);
 
 
         }
@@ -63,7 +61,7 @@ namespace Project.Web.Controllers
 
             await this.accountService.CreateCompany(model.Email, model.Username, model.Name, model.Description, model.Password);
 
-            return this.Redirect(homeUrl);
+            return this.Redirect(loginUrl);
 
             
         }
@@ -82,29 +80,21 @@ namespace Project.Web.Controllers
                 return this.View(model);
             }
 
-           var success = this.accountService.Login(model.Username, model.Password, model.RememberMe).Result;
+           var url = this.accountService.Login(model.Username, model.Password, model.RememberMe).Result;
 
-            if (success)
-            {
-                return this.Redirect("/");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return this.View();
-            }
+            return this.Redirect(url);
+           
+           
             
         }
 
+        [HttpGet]
         public IActionResult Logout()
         {
             this.accountService.Logout();
 
             return this.Redirect(homeUrl);
         }
-
-
-
 
 
 

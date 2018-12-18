@@ -5,6 +5,7 @@ using Project.Services.Contracts;
 using Project.Web.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,80 +18,116 @@ namespace Project.Services
 
 
         private ApplicationDbContext context;
-        private UserManager<Account> _userManager;
-        private SignInManager<Account> _signInManager;
-        private RoleManager<IdentityRole> _roleManager;
+        private UserManager<Account> userManager;
+        private SignInManager<Account> signInManager;
+        private RoleManager<IdentityRole> roleManager;
 
         public AccountService(ApplicationDbContext context, UserManager<Account> userManager,
             SignInManager<Account> signInManager
             , RoleManager<IdentityRole> roleManager)
         {
             this.context = context;
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._roleManager = roleManager; 
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.roleManager = roleManager; 
         }
 
         public async Task CreateUser(string email, string username, string firstName, 
             string lastName, string password)
         {
-            var user = new Project.Models.Account
+            var userProfile = new UserProfile()
+            {
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            var user = new Account
             {
                 Email = email,
                 UserName = username,
-                UserProfile = new UserProfile
-                {
-                    FirstName = firstName,
-                    LastName = lastName
-                }
+                UserProfile = userProfile,
+                UserProfileId = userProfile.Id,   
             };
-            var result = await _userManager.CreateAsync(user, password);
+            
+
+            var result = await userManager.CreateAsync(user, password);
             
             if (result.Succeeded)
             {
                 await CreateRole(UserRoleName, user);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                userProfile.AccountId = user.Id;
+                userProfile.Account = user;
+                context.SaveChanges();
+
+                await signInManager.SignInAsync(user, isPersistent: false);
 
                 
             }
         }
 
-        public async Task<bool> Login(string username, string password,bool rememberMe)
+        public async Task<string> Login(string username, string password,bool rememberMe)
         {
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            var result = await _signInManager.PasswordSignInAsync(username, password, rememberMe, lockoutOnFailure: true);
+            var result = await signInManager.PasswordSignInAsync(username, password, rememberMe, lockoutOnFailure: true);
+            var returnUrl = string.Empty;
+           
             if (result.Succeeded)
             {
-                return true;
+                var user = this.context.Users.First(x => x.UserName == username);
+            
+                var roles = await userManager.GetRolesAsync(user);
+                if (roles.Contains("Admin"))
+                {
+                    //Todo:Admin url
+                }
+                else if (roles.Contains("Company"))
+                {
+                    returnUrl = "/Company/Index";
+                }
+                else 
+                {
+                    returnUrl = "~/User/Job/Index";
+                }
+
+                return returnUrl;
             }
             
             else
             {
-                return false;
+                returnUrl = "/Account/Login";
+                return returnUrl;
             }
         }
 
         public async Task CreateCompany(string email, string username, string name,
             string description, string password)
         {
+            var companyProfile = new CompanyProfile
+            {
+                Name = name,
+                Description = description
+            };
+
             var user = new Project.Models.Account
             {
                 Email = email,
                 UserName = username,
-                CompanyProfile = new CompanyProfile
-                {
-                    Name = name,
-                    Description = description
-                }
+                CompanyProfile = companyProfile,
+                CompanyProfileId = companyProfile.Id,
+               
             };
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
                 await CreateRole(CompanyRoleName, user);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                companyProfile.AccountId = user.Id;
+                companyProfile.Account = user;
+                context.SaveChanges();
+
+                await signInManager.SignInAsync(user, isPersistent: false);
 
 
             }
@@ -98,20 +135,20 @@ namespace Project.Services
 
         public  async Task CreateRole(string roleName, Account user)
         {
-            bool roleExists = await _roleManager.RoleExistsAsync(roleName);
+            bool roleExists = await roleManager.RoleExistsAsync(roleName);
             if (!roleExists)
             {  
                 var role = new IdentityRole();
                 role.Name = roleName;
-               var createRole = await _roleManager.CreateAsync(role);
+               var createRole = await roleManager.CreateAsync(role);
                 if (createRole.Succeeded)
                 {
-                    var result = await _userManager.AddToRoleAsync(user, roleName);
+                    var result = await userManager.AddToRoleAsync(user, roleName);
                 }
                     
                 
             }
-             var results = await _userManager.AddToRoleAsync(user, roleName);
+             var results = await userManager.AddToRoleAsync(user, roleName);
 
 
 
@@ -121,7 +158,7 @@ namespace Project.Services
         public async Task Logout()
         {
 
-            await this._signInManager.SignOutAsync();
+            await this.signInManager.SignOutAsync();
 
             
 

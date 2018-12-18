@@ -15,7 +15,7 @@ namespace Project.Services.Contracts
         Task CreateCompany(string email, string username, string Name,
            string description, string password);
 
-        Task<bool> Login(string username, string password, bool rememberMe);
+        Task<string> Login(string username, string password, bool rememberMe);
 
         Task Logout();
 
