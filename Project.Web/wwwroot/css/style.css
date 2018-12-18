@@ -1,3 +1,17 @@
 ﻿body {
     background-image: url(../img/background.png);
 }
+
+.customJumbotron {
+    background-image: url(../img/jumbotron.jpg);
+    background-size :cover
+}
+
+.myJobsRow {
+    padding-top: 12px;
+}
+
+.MyJobsCol {
+    margin-right :12px;
+}
+
