@@ -1,10 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
+using AutoMapper.QueryableExtensions;
 
-namespace Project.Services.Mapping
+namespace FunApp.Services.Mapping
 {
-    class QueryableMappingExtensions
+    public static class QueryableMappingExtensions
     {
+        public static IQueryable<TDestination> To<TDestination>(
+            this IQueryable source,
+            params Expression<Func<TDestination, object>>[] membersToExpand)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return source.ProjectTo(membersToExpand);
+        }
+
+        public static IQueryable<TDestination> To<TDestination>(
+            this IQueryable source,
+            object parameters)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return source.ProjectTo<TDestination>(parameters);
+        }
     }
 }

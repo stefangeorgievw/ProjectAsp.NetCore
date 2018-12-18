@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoMapper;
 
-namespace Project.Services.Mapping
+namespace FunApp.Services.Mapping
 {
-    interface IHaveCustomMappings
+    public interface IHaveCustomMappings
     {
+        void CreateMappings(IMapperConfigurationExpression configuration);
     }
 }
