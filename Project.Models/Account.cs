@@ -7,10 +7,10 @@ namespace Project.Models
     public class Account : IdentityUser
     {
         public string UserProfileId { get; set; }
-        public UserProfile UserProfile { get; set; } = null;
+        public UserProfile UserProfile { get; set; } 
 
         public string CompanyProfileId { get; set; }
-        public CompanyProfile CompanyProfile { get; set; } = null;
+        public CompanyProfile CompanyProfile { get; set; } 
 
       
     }

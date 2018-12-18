@@ -15,7 +15,7 @@ namespace Project.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -85,11 +85,9 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -120,11 +118,9 @@ namespace Project.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -195,15 +191,11 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("CompanyProfileId");
 
-                    b.Property<string>("JobId");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyProfileId");
-
-                    b.HasIndex("JobId");
 
                     b.ToTable("Categories");
                 });
@@ -269,21 +261,27 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<string>("CategoryId");
+
                     b.Property<string>("CompanyId");
 
                     b.Property<string>("Description");
 
                     b.Property<DateTime?>("EndDate");
 
-                    b.Property<decimal>("MaximumPrice");
+                    b.Property<decimal>("Price");
 
                     b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("Status");
 
+                    b.Property<string>("Title");
+
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CompanyId");
 
@@ -362,10 +360,6 @@ namespace Project.Data.Migrations
                     b.HasOne("Project.Models.CompanyProfile")
                         .WithMany("Categories")
                         .HasForeignKey("CompanyProfileId");
-
-                    b.HasOne("Project.Models.Job")
-                        .WithMany("Categories")
-                        .HasForeignKey("JobId");
                 });
 
             modelBuilder.Entity("Project.Models.CompanyProfile", b =>
@@ -400,6 +394,10 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Project.Models.Job", b =>
                 {
+                    b.HasOne("Project.Models.Category", "Category")
+                        .WithMany("Jobs")
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("Project.Models.CompanyProfile", "Company")
                         .WithMany("Jobs")
                         .HasForeignKey("CompanyId");

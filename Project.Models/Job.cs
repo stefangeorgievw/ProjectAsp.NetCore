@@ -1,8 +1,6 @@
 ﻿using Project.Models.Enums;
-using Project.Models.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Project.Models
 {
@@ -10,10 +8,12 @@ namespace Project.Models
     {
         public Job()
         {
-            this.Categories = new HashSet<Category>();
+            
         }
 
         public string Id { get; set; }
+
+        public string Title { get; set; }
 
         public string UserId { get; set; }
         public UserProfile User { get; set; }
@@ -21,9 +21,11 @@ namespace Project.Models
         public string CompanyId { get; set; }
         public CompanyProfile Company { get; set; } = null;
 
-        public JobStatus Status { get; set; }
+        public JobStatus Status { get; set; } = JobStatus.WaitingForCompany;
 
-        public decimal MaximumPrice { get; set; }
+        public decimal Price { get; set; }
+
+
 
         public string Description { get; set; }
 
@@ -34,7 +36,8 @@ namespace Project.Models
         //Can be modified to City so can be searched by city
         public string Address { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        public string CategoryId { get; set; }
+        public Category Category { get; set; }
 
 
 
