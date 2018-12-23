@@ -69,7 +69,7 @@ namespace Project.Web
             services.ConfigureApplicationCookie(options =>
             { options.LoginPath =new PathString("/Account/Login");
                 options.LogoutPath = new PathString("/Account/Logout");
-                //options.AccessDeniedPath = new PathString("Home/Index");
+                options.AccessDeniedPath = new PathString("/Home/Index");
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -81,6 +81,7 @@ namespace Project.Web
             // Custom Services
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<ICategoryService, CategoryService>();
         }
 
