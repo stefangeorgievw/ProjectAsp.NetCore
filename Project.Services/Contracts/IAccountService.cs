@@ -12,8 +12,8 @@ namespace Project.Services.Contracts
            string lastName, string password);
 
 
-        Task CreateCompany(string email, string username, string Name,
-           string description, string password);
+        Task CreateCompany(string email, string username, string name,
+            string description, string password, IEnumerable<Category> categories);
 
         Task<string> Login(string username, string password, bool rememberMe);
 

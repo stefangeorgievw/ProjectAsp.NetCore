@@ -36,6 +36,10 @@ namespace Project.Web.ViewModels.Account
         [MinLength(30), MaxLength(200)]
         public string Description { get; set; }
 
+        [Required]
+        [Display(Name = "Categories")]
+        public IEnumerable<string> CategoriesNames { get; set; }
+
 
 
     }

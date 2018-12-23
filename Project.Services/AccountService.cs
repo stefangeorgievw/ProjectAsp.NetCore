@@ -87,7 +87,7 @@ namespace Project.Services
                 }
                 else 
                 {
-                    returnUrl = "~/User/Job/Index";
+                    returnUrl = "~/User/Job/MyJobs";
                 }
 
                 return returnUrl;
@@ -101,13 +101,16 @@ namespace Project.Services
         }
 
         public async Task CreateCompany(string email, string username, string name,
-            string description, string password)
+            string description, string password, IEnumerable<Category> categories)
         {
             var companyProfile = new CompanyProfile
             {
                 Name = name,
-                Description = description
+                Description = description,
+                Categories = categories
             };
+
+           
 
             var user = new Project.Models.Account
             {
@@ -115,6 +118,7 @@ namespace Project.Services
                 UserName = username,
                 CompanyProfile = companyProfile,
                 CompanyProfileId = companyProfile.Id,
+                
                
             };
             var result = await userManager.CreateAsync(user, password);

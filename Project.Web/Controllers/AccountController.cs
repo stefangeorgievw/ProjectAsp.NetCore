@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Services.Contracts;
+using Project.Web.Areas.User.ViewModels;
 using Project.Web.ViewModels.Account;
 using System.Threading.Tasks;
 
@@ -10,10 +11,12 @@ namespace Project.Web.Controllers
         private static string loginUrl = "/Account/Login";
         private static string homeUrl = "/Home/Index";
         private IAccountService accountService;
+        private ICategoryService categoryService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, ICategoryService categoryService)
         {
             this.accountService = accountService;
+            this.categoryService = categoryService;
         }
 
         [HttpGet]
@@ -47,19 +50,34 @@ namespace Project.Web.Controllers
 
         public IActionResult RegisterCompany()
         {
+            var categoriesNames = this.categoryService.GetAllCategoriesNames();
+            var model = new CategoryNameViewModel()
+            {
+                CategoriesNames = categoriesNames
+            };
+            ViewBag.Categories = model;
+
             return this.View();
         }
 
         [HttpPost]
         public async Task<IActionResult> RegisterCompany(RegisterAsCompanyInputModel model)
         {
+            var areValidCategories = this.categoryService.AreCategoriesValid(model.CategoriesNames);
+
+            if (!areValidCategories)
+            {
+                return this.View();
+            }
 
             if (!ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.accountService.CreateCompany(model.Email, model.Username, model.Name, model.Description, model.Password);
+            var categories = this.categoryService.GetCategoriesByName(model.CategoriesNames);
+
+            await this.accountService.CreateCompany(model.Email, model.Username, model.Name, model.Description, model.Password,categories);
 
             return this.Redirect(loginUrl);
 
