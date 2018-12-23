@@ -27,9 +27,35 @@ namespace Project.Services
             return false;
         }
 
+        public bool AreCategoriesValid(IEnumerable<string> categoriesNames)
+        {
+            var isValid = true;
+            foreach (var categoryName in categoriesNames)
+            {
+                if (!IsCategoryValid(categoryName))
+                {
+                    isValid = false;
+                    break;
+                }
+                 
+            }
+            return isValid;
+        }
+
         public IEnumerable<string> GetAllCategoriesNames()
         {
             return this.context.Categories.Select(x => x.Name).ToList();
+        }
+
+        public IEnumerable<Category> GetCategoriesByName(IEnumerable<string> categoriesNames)
+        {
+            var categories = new List<Category>();
+            foreach (var categoryName in categoriesNames)
+            {
+                var category = this.context.Categories.FirstOrDefault(x => x.Name == categoryName);
+                categories.Add(category);
+            }
+            return categories;
         }
     }
 }

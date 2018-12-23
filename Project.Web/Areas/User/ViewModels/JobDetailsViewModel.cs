@@ -8,7 +8,8 @@ namespace Project.Web.Areas.User.ViewModels
 {
     public class JobDetailsViewModel
     {
-        
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public JobStatus Status { get; set; } 

@@ -10,5 +10,9 @@ namespace Project.Services.Contracts
         bool IsCategoryValid(string categoryName);
 
         IEnumerable<string> GetAllCategoriesNames();
+
+        bool AreCategoriesValid(IEnumerable<string> categoriesNames);
+
+        IEnumerable<Category> GetCategoriesByName(IEnumerable<string> categoriesNames);
     }
 }

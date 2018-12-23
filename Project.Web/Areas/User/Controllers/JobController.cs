@@ -10,13 +10,13 @@ using Project.Models.Enums;
 namespace Project.Web.Areas.User.Controllers
 {
     [Area("User")]
-    [Authorize(Roles = "User")]
     public class JobController : Controller
     {
         private IJobService jobService;
         private ICategoryService categoryService;
         private UserManager<Account> userManager;
 
+       
         public JobController(IJobService jobService, UserManager<Account> userManager,
              ICategoryService categoryService)
         {
@@ -25,6 +25,7 @@ namespace Project.Web.Areas.User.Controllers
             this.categoryService = categoryService;
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             var categoriesNames = this.categoryService.GetAllCategoriesNames();
@@ -38,6 +39,7 @@ namespace Project.Web.Areas.User.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public IActionResult Create(CreateJobInputModel model)
         {
             if (!ModelState.IsValid || this.categoryService.IsCategoryValid(model.CategoryName) == false)
@@ -56,6 +58,7 @@ namespace Project.Web.Areas.User.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public IActionResult MyJobs()
         {
             var currentUserName = this.User.Identity.Name;
@@ -82,14 +85,15 @@ namespace Project.Web.Areas.User.Controllers
             var job = this.jobService.GetJob(id);
             if (job == null)
             {
-                return Redirect("Index");
+                return Redirect("~/Home/Index");
             }
 
             var model = new JobDetailsViewModel
             {
+                Id = id,
                 Title = job.Title,
                 Address = job.Address,
-                CompanyName = job.Company.Name,
+                CompanyName = job.Company?.Name ?? "No Company",
                 Description = job.Description,
                 Price = job.Price,
                 Status = job.Status,
