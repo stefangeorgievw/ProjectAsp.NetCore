@@ -26,6 +26,8 @@ namespace Project.Web.Data
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Offer> Offers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
