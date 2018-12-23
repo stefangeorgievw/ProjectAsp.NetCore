@@ -23,10 +23,10 @@ namespace Project.Models
 
         public string Description { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
 
-        public ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
+        public IEnumerable<Job> Jobs { get; set; } = new HashSet<Job>();
 
-        public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+        public IEnumerable<Contract> Contracts { get; set; } = new HashSet<Contract>();
     }
 }

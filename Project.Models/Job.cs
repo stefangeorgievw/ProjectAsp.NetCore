@@ -1,15 +1,12 @@
 ﻿using Project.Models.Enums;
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Project.Models
 {
    public class Job
     {
-        public Job()
-        {
-            
-        }
 
         public string Id { get; set; }
 
@@ -25,7 +22,7 @@ namespace Project.Models
 
         public decimal Price { get; set; }
 
-
+        public IEnumerable<Offer> Offers { get; set; }
 
         public string Description { get; set; }
 
