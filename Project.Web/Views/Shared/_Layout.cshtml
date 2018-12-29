@@ -36,6 +36,13 @@
                         <a class="nav-link" asp-area="User" asp-controller="Job" asp-action="MyJobs">My Jobs<span class="sr-only">(current)</span></a>
                     </li>
                 }
+                @if (this.User.IsInRole("Company"))
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Company" asp-controller="Job" asp-action="Browse">Browse Jobs<span class="sr-only">(current)</span></a>
+                    </li>
+                    
+                }
 
             </ul>
 
