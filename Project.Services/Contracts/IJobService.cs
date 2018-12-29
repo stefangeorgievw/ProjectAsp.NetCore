@@ -12,5 +12,7 @@ namespace Project.Services.Contracts
         IEnumerable<Job> GetJobs(string username, JobStatus status);
 
         Job GetJob(string id);
+
+        IEnumerable<Job> GetJobsWithSameCategories(string companyUsername);
     }
 }

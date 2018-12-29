@@ -55,5 +55,18 @@ namespace Project.Services
 
             return job;
         }
+
+        public IEnumerable<Job> GetJobsWithSameCategories(string companyUsername)
+        {
+            var company = this.context.CompaniesProfiles
+                .Include(x=>x.Account)
+                .Include(x => x.Categories)
+                .FirstOrDefault(x => x.Account.UserName == companyUsername);
+
+            var jobs = this.context.Jobs
+                .Where(x => company.Categories.Contains(x.Category)).ToList();
+
+            return jobs;
+        }
     }
 }
