@@ -109,7 +109,7 @@ namespace Project.Web
             {
                 routes.MapRoute(
            name: "areas",
-           template: "{area:exists}/{controller=Job}/{action=Index}/{id?}");
+           template: "{area:exists}/{controller=Job}/{action=Browse}/{id?}");
 
 
                routes.MapRoute(

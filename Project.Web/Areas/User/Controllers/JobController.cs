@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Project.Models;
 using AutoMapper;
 using Project.Models.Enums;
+using System.Linq;
 
 namespace Project.Web.Areas.User.Controllers
 {
@@ -14,15 +15,17 @@ namespace Project.Web.Areas.User.Controllers
     {
         private IJobService jobService;
         private ICategoryService categoryService;
+        private IOfferService offerService;
         private UserManager<Account> userManager;
 
        
         public JobController(IJobService jobService, UserManager<Account> userManager,
-             ICategoryService categoryService)
+             ICategoryService categoryService, IOfferService offerService)
         {
             this.userManager = userManager;
             this.jobService = jobService;
             this.categoryService = categoryService;
+            this.offerService = offerService;
         }
 
         [Authorize(Roles = "User")]
@@ -103,6 +106,22 @@ namespace Project.Web.Areas.User.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult Offers(string id)
+        {
+           var offers =  this.offerService.GetJobOffers(id);
+
+            var model = new JobOffersViewModel
+            {
+                Offers = offers,
+            };
+
+            return this.View(model);
+
+
         }
     }
 }

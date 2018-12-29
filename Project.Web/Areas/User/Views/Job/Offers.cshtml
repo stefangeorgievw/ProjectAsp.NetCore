@@ -1,0 +1,32 @@
+﻿@model Project.Web.Areas.User.ViewModels.JobOffersViewModel
+
+
+<div class="table-responsive-lg">
+    <table class="table table-hover table-striped ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Company</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">Price</th>
+                <th scope="col">Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var offer in Model.Offers)
+                {
+                    <td >@offer.Company.Name</td>
+                    <td>@offer.StartDate.ToString("dd/M/yyyy")</td>
+                    <td>@offer.EndDate.ToString("dd/M/yyyy")</td>
+                    <td>@offer.Price</td>
+                    <td>@offer.Comment</td>
+
+
+                }
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>

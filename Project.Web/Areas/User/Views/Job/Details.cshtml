@@ -18,7 +18,7 @@
 
     @if (User.IsInRole("User"))
     {
-        <a class="btn bg-dark" asp-area="Company" asp-controller="Offer" asp-action="Create" >See Offers</a>
+        <a class="btn bg-dark" asp-area="User" asp-controller="Job" asp-action="Offers" asp-route-id="@Model.Id" >See Offers</a>
     }
     @if (User.IsInRole("Company"))
     {

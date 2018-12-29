@@ -34,11 +34,11 @@ namespace Project.Web.Areas.Company.Controllers
             {
                 return this.View(model);
             }
+            var username = this.User.Identity.Name;
+            this.offerService.CreateOffer(model.Price, model.StartDate, model.EndDate, model.Comment, model.JobId,username);
 
-            this.offerService.CreateOffer(model.Price, model.StartDate, model.EndDate, model.Comment, model.JobId);
 
-
-            return View();
+            return this.Redirect("/");
         }
     }
 }
