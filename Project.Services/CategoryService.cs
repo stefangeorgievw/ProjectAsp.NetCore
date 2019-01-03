@@ -57,5 +57,16 @@ namespace Project.Services
             }
             return categories;
         }
+
+        public void CreateCategory(string categoryName)
+        {
+            var category = new Category
+            {
+                Name = categoryName
+            };
+
+            this.context.Categories.Add(category);
+            this.context.SaveChanges();
+        }
     }
 }

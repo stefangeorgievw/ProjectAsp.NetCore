@@ -14,5 +14,7 @@ namespace Project.Services.Contracts
         bool AreCategoriesValid(IEnumerable<string> categoriesNames);
 
         IEnumerable<Category> GetCategoriesByName(IEnumerable<string> categoriesNames);
+
+        void CreateCategory(string categoryName);
     }
 }
