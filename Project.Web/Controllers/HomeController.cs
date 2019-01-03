@@ -12,7 +12,12 @@ namespace Project.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return this.View();
+        }
+
+        public IActionResult How()
+        {
+            return this.View();
         }
 
        

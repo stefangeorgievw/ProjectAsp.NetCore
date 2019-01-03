@@ -83,6 +83,7 @@ namespace Project.Web
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProfileService, ProfileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
