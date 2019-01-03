@@ -141,6 +141,8 @@ namespace Project.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime>("DateOfCreation");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -211,13 +213,15 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("Rating");
+                    b.Property<string>("RatingId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId")
                         .IsUnique()
                         .HasFilter("[AccountId] IS NOT NULL");
+
+                    b.HasIndex("RatingId");
 
                     b.ToTable("CompaniesProfiles");
                 });
@@ -229,27 +233,19 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("CompanyId");
 
-                    b.Property<string>("CompanyProfileId");
-
                     b.Property<DateTime>("DateOfCreation");
 
                     b.Property<string>("JobId");
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("UserProfileId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("CompanyProfileId");
-
                     b.HasIndex("JobId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Contracts");
                 });
@@ -264,6 +260,8 @@ namespace Project.Data.Migrations
                     b.Property<string>("CategoryId");
 
                     b.Property<string>("CompanyId");
+
+                    b.Property<DateTime>("DateOfCreation");
 
                     b.Property<string>("Description");
 
@@ -299,6 +297,8 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("CompanyId");
 
+                    b.Property<DateTime>("DateOfCreation");
+
                     b.Property<DateTime>("EndDate");
 
                     b.Property<string>("JobId");
@@ -314,6 +314,22 @@ namespace Project.Data.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("Project.Models.Rating", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("AverageRating");
+
+                    b.Property<double>("CountOfVotes");
+
+                    b.Property<double>("RatingSum");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Project.Models.UserProfile", b =>
@@ -334,6 +350,24 @@ namespace Project.Data.Migrations
                         .HasFilter("[AccountId] IS NOT NULL");
 
                     b.ToTable("UserProfiles");
+                });
+
+            modelBuilder.Entity("Project.Models.UserRating", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("RatingId");
+
+                    b.Property<string>("UserProfileId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RatingId");
+
+                    b.HasIndex("UserProfileId");
+
+                    b.ToTable("UsersRatings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -393,29 +427,25 @@ namespace Project.Data.Migrations
                     b.HasOne("Project.Models.Account", "Account")
                         .WithOne("CompanyProfile")
                         .HasForeignKey("Project.Models.CompanyProfile", "AccountId");
+
+                    b.HasOne("Project.Models.Rating", "Rating")
+                        .WithMany()
+                        .HasForeignKey("RatingId");
                 });
 
             modelBuilder.Entity("Project.Models.Contract", b =>
                 {
-                    b.HasOne("Project.Models.Account", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
-
-                    b.HasOne("Project.Models.CompanyProfile")
+                    b.HasOne("Project.Models.CompanyProfile", "Company")
                         .WithMany("Contracts")
-                        .HasForeignKey("CompanyProfileId");
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("Project.Models.Job", "Job")
                         .WithMany()
                         .HasForeignKey("JobId");
 
-                    b.HasOne("Project.Models.Account", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("Project.Models.UserProfile")
+                    b.HasOne("Project.Models.UserProfile", "User")
                         .WithMany("Contracts")
-                        .HasForeignKey("UserProfileId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Project.Models.Job", b =>
@@ -449,6 +479,17 @@ namespace Project.Data.Migrations
                     b.HasOne("Project.Models.Account", "Account")
                         .WithOne("UserProfile")
                         .HasForeignKey("Project.Models.UserProfile", "AccountId");
+                });
+
+            modelBuilder.Entity("Project.Models.UserRating", b =>
+                {
+                    b.HasOne("Project.Models.Rating", "Rating")
+                        .WithMany("VotedUsers")
+                        .HasForeignKey("RatingId");
+
+                    b.HasOne("Project.Models.UserProfile", "UserProfile")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserProfileId");
                 });
 #pragma warning restore 612, 618
         }

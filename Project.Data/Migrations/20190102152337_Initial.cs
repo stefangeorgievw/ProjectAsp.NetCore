@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,11 +42,26 @@ namespace Project.Data.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     UserProfileId = table.Column<string>(nullable: true),
-                    CompanyProfileId = table.Column<string>(nullable: true)
+                    CompanyProfileId = table.Column<string>(nullable: true),
+                    DateOfCreation = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    RatingSum = table.Column<double>(nullable: false),
+                    CountOfVotes = table.Column<double>(nullable: false),
+                    AverageRating = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,7 +177,7 @@ namespace Project.Data.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccountId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Rating = table.Column<decimal>(nullable: false),
+                    RatingId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -174,6 +189,12 @@ namespace Project.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CompaniesProfiles_Ratings_RatingId",
+                        column: x => x.RatingId,
+                        principalTable: "Ratings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,7 +204,8 @@ namespace Project.Data.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccountId = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    RatingId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,6 +214,12 @@ namespace Project.Data.Migrations
                         name: "FK_UserProfiles_AspNetUsers_AccountId",
                         column: x => x.AccountId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserProfiles_Ratings_RatingId",
+                        column: x => x.RatingId,
+                        principalTable: "Ratings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -224,12 +252,13 @@ namespace Project.Data.Migrations
                     UserId = table.Column<string>(nullable: true),
                     CompanyId = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    MaximumPrice = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<string>(nullable: true)
+                    CategoryId = table.Column<string>(nullable: true),
+                    DateOfCreation = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,22 +291,14 @@ namespace Project.Data.Migrations
                     UserId = table.Column<string>(nullable: true),
                     CompanyId = table.Column<string>(nullable: true),
                     JobId = table.Column<string>(nullable: true),
-                    DateOfCreation = table.Column<DateTime>(nullable: false),
-                    CompanyProfileId = table.Column<string>(nullable: true),
-                    UserProfileId = table.Column<string>(nullable: true)
+                    DateOfCreation = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contracts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contracts_AspNetUsers_CompanyId",
+                        name: "FK_Contracts_CompaniesProfiles_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Contracts_CompaniesProfiles_CompanyProfileId",
-                        column: x => x.CompanyProfileId,
                         principalTable: "CompaniesProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -288,15 +309,39 @@ namespace Project.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Contracts_AspNetUsers_UserId",
+                        name: "FK_Contracts_UserProfiles_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Offers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CompanyId = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    JobId = table.Column<string>(nullable: true),
+                    DateOfCreation = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_CompaniesProfiles_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "CompaniesProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Contracts_UserProfiles_UserProfileId",
-                        column: x => x.UserProfileId,
-                        principalTable: "UserProfiles",
+                        name: "FK_Offers_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -353,14 +398,14 @@ namespace Project.Data.Migrations
                 filter: "[AccountId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompaniesProfiles_RatingId",
+                table: "CompaniesProfiles",
+                column: "RatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contracts_CompanyId",
                 table: "Contracts",
                 column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contracts_CompanyProfileId",
-                table: "Contracts",
-                column: "CompanyProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_JobId",
@@ -371,11 +416,6 @@ namespace Project.Data.Migrations
                 name: "IX_Contracts_UserId",
                 table: "Contracts",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contracts_UserProfileId",
-                table: "Contracts",
-                column: "UserProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CategoryId",
@@ -393,11 +433,26 @@ namespace Project.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Offers_CompanyId",
+                table: "Offers",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Offers_JobId",
+                table: "Offers",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_AccountId",
                 table: "UserProfiles",
                 column: "AccountId",
                 unique: true,
                 filter: "[AccountId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProfiles_RatingId",
+                table: "UserProfiles",
+                column: "RatingId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -421,6 +476,9 @@ namespace Project.Data.Migrations
                 name: "Contracts");
 
             migrationBuilder.DropTable(
+                name: "Offers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -437,6 +495,9 @@ namespace Project.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Ratings");
         }
     }
 }

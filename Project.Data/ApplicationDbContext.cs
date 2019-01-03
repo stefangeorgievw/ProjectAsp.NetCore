@@ -28,6 +28,10 @@ namespace Project.Web.Data
 
         public DbSet<Offer> Offers { get; set; }
 
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<UserRating> UsersRatings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -41,6 +45,16 @@ namespace Project.Web.Data
                    .HasOne(a => a.UserProfile)
                    .WithOne(u => u.Account)
                    .HasForeignKey<UserProfile>(u => u.AccountId);
+
+
+            builder.Entity<UserRating>()
+                .HasOne(ur => ur.UserProfile)
+                .WithMany(r => r.Ratings)
+                .HasForeignKey(ur => ur.UserProfileId);
+            builder.Entity<UserRating>()
+                .HasOne(ur => ur.Rating)
+                .WithMany(c => c.VotedUsers)
+                .HasForeignKey(ur => ur.RatingId);
 
 
         }
