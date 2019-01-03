@@ -3,19 +3,44 @@
 }
 
 .customJumbotron {
-    background-image: url(../img/jumbotron.jpg);
+   
     background-size :cover
 }
 
-.myJobsRow {
-    padding-top: 12px;
+
+.layoutMargin {
+    margin-top: 12px;
 }
 
-.MyJobsCol {
-    margin-right :12px;
+.howCol{
+    margin-right: 20px;
 }
 
-.offers {
-   margin-top : 12px;
+.mytext {
+    width: 140px;
 }
 
+#element1 {
+    display: inline-block;
+    margin-right: 300px;
+    width: 200px;
+ 
+}
+
+#element2 {
+    display: inline-block;
+    width: 200px;
+ 
+}
+
+
+
+.companyProfile {
+    width:900px;
+    margin:0 auto;
+    height:300px;
+}
+
+.workingAreas{
+    margin-left:506px;
+}
