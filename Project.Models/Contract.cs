@@ -7,10 +7,10 @@ namespace Project.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public string UserId { get; set; }
-        public Account User { get; set; }
+        public UserProfile User { get; set; }
 
         public string CompanyId { get; set; }
-        public Account Company { get; set; }
+        public CompanyProfile Company { get; set; }
 
         public string JobId { get; set; }
         public Job Job { get; set; }

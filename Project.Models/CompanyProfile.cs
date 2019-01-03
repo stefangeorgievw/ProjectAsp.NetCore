@@ -19,7 +19,7 @@ namespace Project.Models
 
         public string Name { get; set; }
 
-        public decimal Rating { get; set; } = Common.Constants.companyDefaultRating;
+        public Rating Rating { get; set; } 
 
         public string Description { get; set; }
 

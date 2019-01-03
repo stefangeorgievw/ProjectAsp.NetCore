@@ -7,7 +7,6 @@ namespace Project.Models
     public class UserProfile:IProfile
     {
        
-
         public string Id { get; set; } =  Guid.NewGuid().ToString();
 
         public string AccountId { get; set; }
@@ -20,6 +19,8 @@ namespace Project.Models
         public ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
 
         public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+
+        public ICollection<UserRating> Ratings { get; set; } = new HashSet<UserRating>();
 
 
 

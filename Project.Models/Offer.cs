@@ -21,5 +21,7 @@ namespace Project.Models
 
         public string JobId { get; set; }
         public Job Job { get; set; }
+
+        public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
     }
 }

@@ -36,6 +36,8 @@ namespace Project.Models
         public string CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
+
 
 
     }
