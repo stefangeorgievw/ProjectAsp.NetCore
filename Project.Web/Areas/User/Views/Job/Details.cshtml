@@ -1,26 +1,31 @@
 ﻿@model Project.Web.Areas.User.ViewModels.JobDetailsViewModel
 
+
 <h1 class="text-center">@Model.Title</h1>
 <hr class="hr-2 bg-dark" />
-<div class="product-type-holder half-width mx-auto d-flex justify-content-between">
+<div class=" form-control half-width mx-auto d-flex justify-content-between">
     <h3 class="text-center">Address: @Model.Address</h3>
     <h3 class="text-center">Price: @Model.Price</h3>
 </div>
 <hr class="hr-2 bg-dark" />
 <h3 class="text-center">Description</h3>
-<div class="product-description-holder">
+<div class="form-control product-description-holder">
     <p class="text-center mt-4">
         @Model.Description
     </p>
+    @if (Model.EndDate != null)
+    {
+        <h1>@Model.StartDate</h1>
+    }
 </div>
 <hr class="hr-2 bg-dark" />
-<div class="product-action-holder mt-4 d-flex justify-content-around">
+<div class="form-control mt-4 d-flex justify-content-around">
 
-    @if (User.IsInRole("User"))
+    @if (User.IsInRole("User") && Model.StartDate == null)
     {
         <a class="btn bg-dark" asp-area="User" asp-controller="Job" asp-action="Offers" asp-route-id="@Model.Id" >See Offers</a>
     }
-    @if (User.IsInRole("Company"))
+    @if (User.IsInRole("Company") && Model.StartDate == null)
     {
         <a class="btn bg-dark" asp-area="Company" asp-controller="Offer" asp-action="Create" asp-route-id="@Model.Id">Make an offer</a>
 
