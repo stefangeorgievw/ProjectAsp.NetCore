@@ -60,7 +60,7 @@ namespace Project.Services
                 userProfile.Account = user;
                 context.SaveChanges();
 
-                await signInManager.SignInAsync(user, isPersistent: false);
+                
 
                 
             }
@@ -79,11 +79,11 @@ namespace Project.Services
                 var roles = await userManager.GetRolesAsync(user);
                 if (roles.Contains("Admin"))
                 {
-                    //Todo:Admin url
+                    returnUrl = "/";
                 }
                 else if (roles.Contains("Company"))
                 {
-                    returnUrl = "/Company/Index";
+                    returnUrl = "/Company/Job/Browse";
                 }
                 else 
                 {
@@ -103,11 +103,14 @@ namespace Project.Services
         public async Task CreateCompany(string email, string username, string name,
             string description, string password, IEnumerable<Category> categories)
         {
+            var rating = new Rating();
+
             var companyProfile = new CompanyProfile
             {
                 Name = name,
                 Description = description,
-                Categories = categories
+                Categories = categories,
+                Rating = rating
             };
 
            
@@ -118,6 +121,7 @@ namespace Project.Services
                 UserName = username,
                 CompanyProfile = companyProfile,
                 CompanyProfileId = companyProfile.Id,
+                
                 
                
             };
@@ -131,7 +135,7 @@ namespace Project.Services
                 companyProfile.Account = user;
                 context.SaveChanges();
 
-                await signInManager.SignInAsync(user, isPersistent: false);
+                
 
 
             }
@@ -168,5 +172,14 @@ namespace Project.Services
 
 
         }
+
+        public string GetAccountId(string username)
+        {
+            var account = this.context.Users.FirstOrDefault(x => x.UserName == username);
+
+            return account.Id;
+        }
+
+        
     }
 }
