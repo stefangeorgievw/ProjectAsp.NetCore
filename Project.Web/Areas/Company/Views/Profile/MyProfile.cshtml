@@ -1,0 +1,20 @@
+﻿@model Project.Web.Areas.Company.ViewModels.ProfileDetailsViewModel
+<div class="row form-control companyProfile">
+    <div class="col">
+        <h3 class="text-center">@Model.Name</h3>
+        <hr />
+        <h5 id="element1">Raiting:<b>@Model.Rating.AverageRating.ToString("F1")</b>/5.0</h5>
+        <h5 id="element2">
+            Email:@Model.Email
+        </h5>
+
+       
+        <h5 class="workingAreas">Working Areas:@Model.Categories</h5>
+    </div>
+
+
+    <p class="text-center">@Model.Description</p>
+
+
+
+</div>

@@ -54,5 +54,13 @@ namespace Project.Services
         {
            return this.context.Offers.Where(x => x.JobId == jobId).Include(x=> x.Company);
         }
+
+        public Offer GetOffer(string offerId)
+        {
+           return this.context.Offers
+                .Include(x=> x.Company)
+                .Include(x => x.Job)
+                .FirstOrDefault(x => x.Id == offerId);
+        }
     }
 }

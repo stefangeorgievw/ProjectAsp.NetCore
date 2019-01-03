@@ -23,8 +23,12 @@ namespace Project.Services
         public void CreateJob(string title, string description, decimal maxPrice, string address, string username,
              string categoryName)
         {
-            var user = this.context.Users.Include(x=> x.UserProfile).FirstOrDefault(x=> x.UserName == username);
-            var category = this.context.Categories.FirstOrDefault(x => x.Name == categoryName);
+            var user = this.context.Users
+                .Include(x=> x.UserProfile)
+                .FirstOrDefault(x=> x.UserName == username);
+
+            var category = this.context.Categories
+                .FirstOrDefault(x => x.Name == categoryName);
 
             var job = new Job()
             {
@@ -56,7 +60,7 @@ namespace Project.Services
             return job;
         }
 
-        public IEnumerable<Job> GetJobsWithSameCategories(string companyUsername)
+        public IEnumerable<Job> GetWaitingForCompanyJobsWithSameCategories(string companyUsername)
         {
             var company = this.context.CompaniesProfiles
                 .Include(x=>x.Account)
@@ -64,9 +68,32 @@ namespace Project.Services
                 .FirstOrDefault(x => x.Account.UserName == companyUsername);
 
             var jobs = this.context.Jobs
-                .Where(x => company.Categories.Contains(x.Category)).ToList();
+                .Where(x => company.Categories.Contains(x.Category))
+                .Where(x=> x.Status == JobStatus.WaitingForCompany)
+                .ToList();
 
             return jobs;
+        }
+
+        public bool AcceptOffer(Offer offer)
+        {
+            var job =this.context.Jobs.FirstOrDefault(x => x.Id == offer.JobId);
+
+            if (job == null)
+            {
+                return false;
+            }
+
+            job.StartDate = offer.StartDate;
+            job.EndDate = offer.EndDate;
+            job.CompanyId = offer.CompanyId;
+            job.Company = offer.Company;
+            job.Price = offer.Price;
+            job.Status = JobStatus.InProgress;
+
+            this.context.SaveChanges();
+
+            return true;
         }
     }
 }

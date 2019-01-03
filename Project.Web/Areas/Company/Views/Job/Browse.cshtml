@@ -1,8 +1,27 @@
-﻿@model Project.Web.Areas.Company.ViewModels.BrowseJobsViewModel
-
-@foreach(var a in Model.Jobs)
-{
-    <h1>@a.Description</h1>
-}
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<Project.Models.Job>
 
 
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<div class=" container-fluid text-center form-control">
+    <h2><b>List of Jobs</b></h2>
+    <hr />
+    
+        @foreach (var job in Model)
+        {
+          
+           <a asp-area="User" 
+             asp-controller="Job" 
+             asp-action="Details"
+             asp-route-id="@job.Id"><h5>@job.Title</h5></a>
+            <h5>@job.Address</h5>
+            <hr />
+           
+        }
+    
+   
+
+    @Html.PagedListPager(Model, page => Url.Action("Browse", new { page }))
+
+</div>

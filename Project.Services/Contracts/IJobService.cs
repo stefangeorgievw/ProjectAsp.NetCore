@@ -13,6 +13,8 @@ namespace Project.Services.Contracts
 
         Job GetJob(string id);
 
-        IEnumerable<Job> GetJobsWithSameCategories(string companyUsername);
+        IEnumerable<Job> GetWaitingForCompanyJobsWithSameCategories(string companyUsername);
+
+        bool AcceptOffer(Offer offer);
     }
 }

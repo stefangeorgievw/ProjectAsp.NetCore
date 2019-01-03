@@ -20,5 +20,7 @@ namespace Project.Services.Contracts
         Task Logout();
 
         Task CreateRole(string roleName, Account user);
+
+        string GetAccountId(string username);
     }
 }

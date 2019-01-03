@@ -10,5 +10,7 @@ namespace Project.Services.Contracts
             string companyUsername);
 
         IEnumerable<Offer> GetJobOffers(string jobId);
+
+        Offer GetOffer(string offerId);
     }
 }

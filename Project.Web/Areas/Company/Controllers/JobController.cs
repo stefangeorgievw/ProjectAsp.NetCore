@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Services.Contracts;
 using Project.Web.Areas.Company.ViewModels;
+using X.PagedList;
 
 namespace Project.Web.Areas.Company.Controllers
 {
@@ -16,18 +17,23 @@ namespace Project.Web.Areas.Company.Controllers
         }
 
         [Authorize(Roles = "Company")]
-        public IActionResult Browse()
+        public IActionResult Browse(int? page)
         {
             var companyUsername = this.User.Identity.Name;
 
-            var jobs = this.jobService.GetJobsWithSameCategories(companyUsername);
+            var jobs = this.jobService.GetWaitingForCompanyJobsWithSameCategories(companyUsername);
 
             var model = new BrowseJobsViewModel
             {
                 Jobs = jobs,
             };
 
-            return this.View(model);
+            var pageNumber = page ?? 1; 
+            var onePageOfJobs = model.Jobs.ToPagedList(pageNumber, 7);
+
+            
+
+            return this.View(onePageOfJobs);
             
         }
     }
