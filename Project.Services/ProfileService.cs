@@ -42,8 +42,7 @@ namespace Project.Services
         public CompanyProfile GetCompanyProfileWithName(string companyProfileName)
         {
             return this.context.CompaniesProfiles
-                .Include(x => x.Rating)
-                
+                .Include(x => x.Rating)        
                 .FirstOrDefault(x => x.Name == companyProfileName);
         }
 

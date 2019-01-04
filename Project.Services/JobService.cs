@@ -20,7 +20,7 @@ namespace Project.Services
         
         }
 
-        public void CreateJob(string title, string description, decimal maxPrice, string address, string username,
+        public void CreateJob(string title, string description, string address, string username,
              string categoryName)
         {
             var user = this.context.Users
@@ -34,7 +34,7 @@ namespace Project.Services
             {
                 Title = title,
                 Description = description,
-                Price = maxPrice,
+                
                 Address = address,
                 User = user.UserProfile,
                 UserId = user.UserProfile.Id,

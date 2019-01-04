@@ -5,8 +5,7 @@ using Project.Web.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Project.Services
 {
@@ -28,8 +27,6 @@ namespace Project.Services
             var company = this.context.Users.Include(x=> x.CompanyProfile)
                 .Select(x => x.CompanyProfile).FirstOrDefault(x => x.Account.UserName == companyUsername);
 
-            
-            
 
             var offer = new Offer
             {

@@ -6,7 +6,7 @@ namespace Project.Services.Contracts
 {
     public interface IJobService
     {
-        void CreateJob(string title, string description, decimal maxPrice, string address,string username,
+        void CreateJob(string title, string description, string address,string username,
             string categoryName);
 
         IEnumerable<Job> GetJobs(string username, JobStatus status);
