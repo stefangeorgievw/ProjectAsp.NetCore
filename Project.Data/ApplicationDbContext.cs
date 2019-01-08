@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 
@@ -14,7 +11,6 @@ namespace Project.Web.Data
         {
         }
 
-        
 
         public DbSet<CompanyProfile> CompaniesProfiles { get; set; }
 
