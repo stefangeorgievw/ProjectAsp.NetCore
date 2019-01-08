@@ -7,7 +7,6 @@ namespace Project.Models
 {
    public class Job
     {
-
         public string Id { get; set; }
 
         public string Title { get; set; }
@@ -37,6 +36,8 @@ namespace Project.Models
         public Category Category { get; set; }
 
         public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
+
+        public Contract Contract { get; set; }
 
 
 

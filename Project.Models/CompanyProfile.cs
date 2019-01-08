@@ -25,8 +25,7 @@ namespace Project.Models
 
         public IEnumerable<Category> Categories { get; set; }
 
-        public IEnumerable<Job> Jobs { get; set; } = new HashSet<Job>();
+        public ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
 
-        public IEnumerable<Contract> Contracts { get; set; } = new HashSet<Contract>();
     }
 }
