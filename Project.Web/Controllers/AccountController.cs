@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project.Common;
 using Project.Services.Contracts;
 using Project.Web.Areas.User.ViewModels;
 using Project.Web.ViewModels.Account;
@@ -8,8 +9,7 @@ namespace Project.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private static string loginUrl = "/Account/Login";
-        private static string homeUrl = "/Home/Index";
+       
         private IAccountService accountService;
         private ICategoryService categoryService;
 
@@ -42,7 +42,7 @@ namespace Project.Web.Controllers
 
           await  this.accountService.CreateUser(model.Email,model.Username, model.FirstName, model.LastName,model.Password);
 
-            return this.Redirect(loginUrl);
+            return this.Redirect(Constants.loginUrl);
 
 
         }
@@ -79,7 +79,7 @@ namespace Project.Web.Controllers
 
             await this.accountService.CreateCompany(model.Email, model.Username, model.Name, model.Description, model.Password,categories);
 
-            return this.Redirect(loginUrl);
+            return this.Redirect(Constants.loginUrl);
 
             
         }
@@ -111,7 +111,7 @@ namespace Project.Web.Controllers
         {
             this.accountService.Logout();
 
-            return this.Redirect(homeUrl);
+            return this.Redirect(Constants.homeUrl);
         }
 
 

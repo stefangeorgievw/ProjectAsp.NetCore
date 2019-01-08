@@ -41,13 +41,16 @@
                     <li class="nav-item active">
                         <a class="nav-link" asp-area="Admin" asp-controller="Category" asp-action="Create">Create Category<span class="sr-only">(current)</span></a>
                     </li>
-                   
+
                 }
                 @if (this.User.IsInRole("Company"))
                 {
 
                     <li class="nav-item active">
                         <a class="nav-link" asp-area="Company" asp-controller="Job" asp-action="Browse">Browse Jobs<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Company" asp-controller="Job" asp-action="MyJobs">My Jobs<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/Company/Profile/MyProfile?username=@this.User.Identity.Name">Profile<span class="sr-only">(current)</span></a>
@@ -65,9 +68,15 @@
 
     <div class="container body-content layoutMargin">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>Designed by: SGG Studios &copy; 2018 </p>
+        
+        <footer class="page-footer font-small blue fixed-bottom customFooter">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+                © 2018 Copyright: HouseWork
+            </div>
+            <!-- Copyright -->
+
         </footer>
     </div>
 
