@@ -39,16 +39,7 @@ namespace Project.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Password.RequiredLength = 6;
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequiredUniqueChars = 3;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequireNonAlphanumeric = false;
-
-            //});
+            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -84,6 +75,7 @@ namespace Project.Web
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IContractService, ContractService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

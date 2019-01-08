@@ -7,6 +7,10 @@
     background-size :cover
 }
 
+.myjobs{
+    margin-right :12px;
+}
+
 
 .layoutMargin {
     margin-top: 12px;
@@ -43,4 +47,13 @@
 
 .workingAreas{
     margin-left:506px;
+}
+
+.bgdark{
+    border-top : 3px;
+}
+
+.customFooter {
+    background-color: #F2F2F2;
+   
 }
