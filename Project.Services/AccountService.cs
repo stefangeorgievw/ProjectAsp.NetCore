@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Identity;
+using Project.Common;
 using Project.Models;
 using Project.Services.Contracts;
 using Project.Web.Data;
@@ -13,8 +14,7 @@ namespace Project.Services
 {
     public class AccountService:IAccountService
     {
-        private const string UserRoleName = "User";
-        private const string CompanyRoleName = "Company";
+       
 
 
         private ApplicationDbContext context;
@@ -54,7 +54,7 @@ namespace Project.Services
             
             if (result.Succeeded)
             {
-                await CreateRole(UserRoleName, user);
+                await CreateRole(Constants.userRoleName, user);
 
                 userProfile.AccountId = user.Id;
                 userProfile.Account = user;
@@ -77,17 +77,17 @@ namespace Project.Services
                 var user = this.context.Users.First(x => x.UserName == username);
             
                 var roles = await userManager.GetRolesAsync(user);
-                if (roles.Contains("Admin"))
+                if (roles.Contains(Constants.adminRoleName))
                 {
-                    returnUrl = "/";
+                    returnUrl = Constants.homeUrl;
                 }
-                else if (roles.Contains("Company"))
+                else if (roles.Contains(Constants.companyRoleName))
                 {
-                    returnUrl = "/Company/Job/Browse";
+                    returnUrl = Constants.browseJobsUrl;
                 }
                 else 
                 {
-                    returnUrl = "~/User/Job/MyJobs";
+                    returnUrl = Constants.myJobsUrl;
                 }
 
                 return returnUrl;
@@ -95,7 +95,7 @@ namespace Project.Services
             
             else
             {
-                returnUrl = "/Account/Login";
+                returnUrl = Constants.loginUrl;
                 return returnUrl;
             }
         }
@@ -129,7 +129,7 @@ namespace Project.Services
 
             if (result.Succeeded)
             {
-                await CreateRole(CompanyRoleName, user);
+                await CreateRole(Constants.companyRoleName, user);
 
                 companyProfile.AccountId = user.Id;
                 companyProfile.Account = user;

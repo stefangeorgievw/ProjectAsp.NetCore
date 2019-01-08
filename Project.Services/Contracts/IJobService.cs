@@ -16,5 +16,11 @@ namespace Project.Services.Contracts
         IEnumerable<Job> GetWaitingForCompanyJobsWithSameCategories(string companyUsername);
 
         bool AcceptOffer(Offer offer);
+
+        IEnumerable<Job> GetCompanyJobs(string username, JobStatus status);
+
+        void FinishJobs(string username);
+
+        void FinishCompanyJobs(string username);
     }
 }

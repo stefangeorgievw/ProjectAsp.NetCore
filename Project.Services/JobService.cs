@@ -48,14 +48,29 @@ namespace Project.Services
 
         public IEnumerable<Job> GetJobs(string username,JobStatus status)
         {
+
             var jobs = this.context.Jobs.Where(x => x.User.Account.UserName == username).Where(x => x.Status == status).ToList();
 
             return jobs;
         }
 
+        public IEnumerable<Job> GetCompanyJobs(string username, JobStatus status)
+        {
+            var jobs = this.context.Jobs.Where(x => x.Company.Account.UserName == username).Where(x => x.Status == status).ToList();
+
+            return jobs;
+        }
+
+
+
         public Job GetJob(string id)
         {
-            var job = this.context.Jobs.Include(x=> x.Company).Include(x=> x.User).Include(x=> x.User.Account).FirstOrDefault(x => x.Id == id);
+            var job = this.context.Jobs.Include(x=> x.Company)
+                .Include(x=> x.Category)
+                .Include(x=> x.User)
+                .Include(x=> x.Contract)
+                .Include(x=> x.User.Account)
+                .FirstOrDefault(x => x.Id == id);
 
             return job;
         }
@@ -94,6 +109,34 @@ namespace Project.Services
             this.context.SaveChanges();
 
             return true;
+        }
+
+        public void FinishJobs(string username)
+        {
+           var jobs = this.GetJobs(username, JobStatus.InProgress);
+
+            var finishedJobs = jobs.Where(x => x.EndDate < DateTime.UtcNow).ToList();
+
+            foreach (var job in finishedJobs)
+            {
+                job.Status = JobStatus.Finished;
+            }
+
+            context.SaveChanges();
+        }
+
+        public void FinishCompanyJobs(string username)
+        {
+            var jobs = this.GetCompanyJobs(username, JobStatus.InProgress);
+
+            var finishedJobs = jobs.Where(x => x.EndDate < DateTime.UtcNow).ToList();
+
+            foreach (var job in finishedJobs)
+            {
+                job.Status = JobStatus.Finished;
+            }
+
+            context.SaveChanges();
         }
     }
 }
