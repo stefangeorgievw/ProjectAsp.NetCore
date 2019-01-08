@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common;
 using Project.Services.Contracts;
 using Project.Web.Areas.Company.ViewModels;
 
 namespace Project.Web.Areas.Company.Controllers
 {
-    [Area("Company")]
+    [Area(Constants.companyRoleName)]
     public class OfferController : Controller
     {
         private IOfferService offerService;
@@ -19,14 +20,14 @@ namespace Project.Web.Areas.Company.Controllers
             this.offerService = offerService;
         }
 
-        [Authorize(Roles = "Company")]
+        [Authorize(Roles = Constants.companyRoleName)]
         public IActionResult Create(string id)
         {
             ViewBag.Id = id;
             return View();
         }
 
-        [Authorize(Roles = "Company")]
+        [Authorize(Roles = Constants.companyRoleName)]
         [HttpPost]
         public IActionResult Create(CreateOfferInputModel model)
         {
@@ -38,7 +39,7 @@ namespace Project.Web.Areas.Company.Controllers
             this.offerService.CreateOffer(model.Price, model.StartDate, model.EndDate, model.Comment, model.JobId,username);
 
 
-            return this.Redirect("/");
+            return this.Redirect(Constants.homeUrl);
         }
     }
 }

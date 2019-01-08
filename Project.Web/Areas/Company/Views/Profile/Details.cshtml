@@ -1,5 +1,5 @@
 ﻿@model Project.Web.Areas.Company.ViewModels.ProfileDetailsViewModel
-<div class="row form-control companyProfile" >
+<div class="row form-control companyProfile">
     <div class="col">
         <h3 class="text-center">@Model.Name</h3>
         <hr />
@@ -8,9 +8,11 @@
             Email:@Model.Email
         </h5>
 
+
+
         @if (Model.Rating.VotedUsers.FirstOrDefault(x => x.UserProfileId == ViewBag.Id) == null)
         {
-            <form  asp-area="Company" asp-controller="Profile" asp-action="Details">
+            <form asp-area="Company" asp-controller="Profile" asp-action="Details">
                 <input type="number" min="0" max="5" step="1" asp-for="@Model.RateDigit" class="form-control mytext" />
                 <span asp-validation-for="@Model.RateDigit" class="text-danger"></span>
                 <input name="companyName" hidden value="@Model.Name" />
@@ -19,14 +21,14 @@
                 </div>
             </form>
         }
-        <h5  class="workingAreas">Working Areas:@Model.Categories</h5>
+
     </div>
-     
-         
-         <p class="text-center">@Model.Description</p>
-         
-     
-    
+    <h5 class="workingAreas">Working Areas:@Model.Categories</h5>
+
+    <p class="text-center">@Model.Description</p>
+
+
+
 </div>
 
 

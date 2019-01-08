@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common;
 using Project.Services.Contracts;
 using Project.Web.Areas.Company.ViewModels;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project.Web.Areas.Company.Controllers
 {
-    [Area("Company")]
+    [Area(Constants.companyRoleName)]
     public class ProfileController:Controller
     {
         private IProfileService profileService;
@@ -19,14 +20,14 @@ namespace Project.Web.Areas.Company.Controllers
             this.accountService = accountService;
         }
 
-        [Authorize]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult Details(string id)
         {
             var companyProfile = this.profileService.GetCompanyProfile(id);
 
             if (companyProfile == null)
             {
-                return this.Redirect("/");
+                return this.Redirect(Constants.homeUrl);
             }
 
             
@@ -69,19 +70,19 @@ namespace Project.Web.Areas.Company.Controllers
             return this.Details(companyProfile.Id);
         }
 
-        [Authorize(Roles ="Company")]
+        [Authorize(Roles = Constants.companyRoleName)]
         public IActionResult MyProfile(string username)
         {
             if (this.User.Identity.Name != username)
             {
-                return this.Redirect("/");
+                return this.Redirect(Constants.homeUrl);
             }
 
            var companyProfile = this.profileService.GetCompanyProfileWithUsername(username);
 
             if (companyProfile == null)
             {
-                return this.Redirect("/");
+                return this.Redirect(Constants.homeUrl);
             }
 
             var categories = string.Join(",", companyProfile.Categories.Select(x => x.Name));
