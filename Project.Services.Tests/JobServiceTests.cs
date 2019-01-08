@@ -84,6 +84,45 @@ namespace Project.Services.Tests
         }
 
         [Fact]
+        public void GetCompanyJobsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+           .UseInMemoryDatabase(databaseName: "Get_Company_Jobs")
+           .Options;
+
+            int result;
+            var companyProfile = new CompanyProfile
+            {
+                Account = new Account
+                {
+                    UserName = "username"
+                }
+            };
+
+            var job = new Job
+            {
+                Company = companyProfile,
+                Status = JobStatus.WaitingForCompany
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                IJobService service = new JobService(context);
+                context.CompaniesProfiles.Add(companyProfile);
+                context.Jobs.Add(job);
+                context.SaveChanges();
+              var jobs =  service.GetCompanyJobs("username", JobStatus.WaitingForCompany);
+                
+                result = jobs.Count();
+            }
+
+            Assert.Equal(1, result);
+
+
+
+        }
+
+        [Fact]
         public void GetJobShouldReturnJobTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -253,6 +292,96 @@ namespace Project.Services.Tests
             }
 
             Assert.False(result);
+
+
+        }
+
+        [Fact]
+        public void FinishJobsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+          .UseInMemoryDatabase(databaseName: "Finish_Jobs")
+          .Options;
+
+           
+
+            var job = new Job
+            {
+                Id = "jobid",
+                Status = JobStatus.InProgress,
+                EndDate = DateTime.ParseExact("2009-05-08", "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture),
+        };
+
+            var user = new UserProfile
+            {
+                Account = new Account
+                {
+                    UserName = "username"
+                },
+                
+            };
+
+            user.Jobs.Add(job);
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.UserProfiles.Add(user);
+                context.Jobs.Add(job);
+                context.SaveChanges();
+
+                IJobService service = new JobService(context);
+                service.FinishJobs("username");
+
+                
+            }
+
+            Assert.Equal(JobStatus.Finished, job.Status);
+
+
+
+        }
+
+        [Fact]
+        public void FinishCompanyJobsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+          .UseInMemoryDatabase(databaseName: "Finish_Jobs_Company")
+          .Options;
+
+            var job = new Job
+            {
+                Id = "jobid",
+                Status = JobStatus.InProgress,
+                EndDate = DateTime.ParseExact("2009-05-08", "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture),
+            };
+
+            var company = new CompanyProfile
+            {
+                Account = new Account
+                {
+                    UserName = "username"
+                },
+
+            };
+
+            company.Jobs.Add(job);
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.CompaniesProfiles.Add(company);
+                context.Jobs.Add(job);
+                context.SaveChanges();
+
+                IJobService service = new JobService(context);
+                service.FinishCompanyJobs("username");
+
+
+            }
+
+            Assert.Equal(JobStatus.Finished, job.Status);
+
 
 
         }
