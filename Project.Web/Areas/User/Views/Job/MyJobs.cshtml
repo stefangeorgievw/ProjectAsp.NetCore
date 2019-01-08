@@ -3,41 +3,44 @@
 <div class="container">
    
     <div class="row myJobsRow">
-        <div class="col form-control MyJobsCol">
+        <div class="col form-control myjobs">
 
-            <h3>Waiting for Offers:</h3>
+            <h3 class="text-center">Waiting for Offers:</h3>
             <hr />
             @if (!Model.WaitingForCompanyJobs.Any())
             {
-                <h5>None</h5>
+                <h5 class="text-center">None</h5>
             }
             @foreach (var job in Model.WaitingForCompanyJobs)
             {
-                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5>@job.Title</h5></a>
+                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5 class="text-center">@job.Title</h5></a>
+                <hr />
             }
         </div>
-        <div class="col form-control MyJobsCol">
-            <h3>In Progress:</h3>
+        <div class="col form-control myjobs">
+            <h3 class="text-center" >In Progress:</h3>
             <hr />
             @if (!Model.InProgressJobs.Any())
             {
-                <h5>None</h5>
+                <h5 class="text-center">None</h5>
             }
             @foreach (var job in Model.InProgressJobs)
             {
-                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5>@job.Title</h5></a>
+                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5 class="text-center">@job.Title</h5></a>
+                <hr />
             }
         </div>
         <div class="col form-control">
-            <h3>Finished:</h3>
+            <h3 class="text-center">Finished:</h3>
             <hr />
             @if (!Model.FinishedJobs.Any())
             {
-                <h5>None</h5>
+                <h5 class="text-center">None</h5>
             }
             @foreach (var job in Model.FinishedJobs)
             {
-                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5>@job.Title</h5></a>
+                <a asp-area="User" asp-controller="Job" asp-action="Details" asp-route-id="@job.Id"><h5 class="text-center">@job.Title</h5></a>
+                <hr />
             }
         </div>
     </div>

@@ -1,0 +1,51 @@
+﻿@model Project.Web.Areas.User.ViewModels.JobDetailsViewModel
+
+<div class="row form-control">
+    <h1 class="text-center">@Model.Title</h1>
+
+    <hr class="hr-2 bgdark" />
+    <div class=" form-control half-width mx-auto d-flex justify-content-between" style="margin-bottom:4px">
+        <h4 class="text-center">Address: @Model.Address</h4>
+        <h4 class="text-center">Category: @Model.Category.Name</h4>
+    </div>
+    <div class=" form-control half-width mx-auto d-flex justify-content-between">
+        <h4 class="text-center">StartDate: @Model.StartDate</h4>
+        <h4 class="text-center">EndDate: @Model.EndDate</h4>
+        <h4 class="text-center">Price: @Model.Price</h4>
+    </div>
+
+
+
+    <div class="form-control product-description-holder">
+        <h5 class="text-center mt-4">
+            @Model.Description
+        </h5>
+    </div>
+    <div class="form-control mt-4 d-flex justify-content-around">
+        <h5>Company:<a asp-area="Company"
+   asp-controller="Profile"
+   asp-action="Details"
+   asp-route-id="@Model.Company.Id">@Model.Company.Name</a></h5>
+
+        @if (Model.Contract != null)
+        {
+            <h5>Contract:<a asp-area="Company"
+                         asp-controller="Contract"
+                         asp-action="Download"
+                         asp-route-id="@Model.Id">Download</a></h5>
+        }
+
+
+        @if (Model.Contract == null && this.User.IsInRole("Company"))
+        {
+            <a asp-area="Company"
+               asp-controller="Contract"
+               asp-action="Upload"
+               asp-route-id="@Model.Id"><h5>Add Contract</h5></a>
+        }
+
+
+
+
+    </div>
+</div>

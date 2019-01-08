@@ -1,4 +1,5 @@
-﻿using Project.Models.Enums;
+﻿using Project.Models;
+using Project.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,11 @@ namespace Project.Web.Areas.User.ViewModels
 
         public decimal Price { get; set; }
 
-        public string CompanyName { get; set; }
+        public Contract Contract { get; set; }
+
+        public Category Category { get; set; }
+
+        public CompanyProfile Company { get; set; }
 
         public string Username { get; set; }
 

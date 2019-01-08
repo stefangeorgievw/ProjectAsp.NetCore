@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Web.Areas.User.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Project.Models;
-using AutoMapper;
 using Project.Models.Enums;
-using System.Linq;
+using Project.Common;
 
 namespace Project.Web.Areas.User.Controllers
 {
-    [Area("User")]
+    [Area(Constants.userRoleName)]
     public class JobController : Controller
     {
         private IJobService jobService;
@@ -28,7 +27,7 @@ namespace Project.Web.Areas.User.Controllers
             this.offerService = offerService;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = Constants.companyRoleName)]
         public IActionResult Create()
         {
             var categoriesNames = this.categoryService.GetAllCategoriesNames();
@@ -42,7 +41,7 @@ namespace Project.Web.Areas.User.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = Constants.companyRoleName)]
         public IActionResult Create(CreateJobInputModel model)
         {
             if (!ModelState.IsValid || this.categoryService.IsCategoryValid(model.CategoryName) == false)
@@ -53,22 +52,25 @@ namespace Project.Web.Areas.User.Controllers
 
             var currentUserName = this.User.Identity.Name;
 
-            this.jobService.CreateJob(model.Title, model.Description, model.MaximumPrice, model.Address, currentUserName
+            this.jobService.CreateJob(model.Title, model.Description, model.Address, currentUserName
                 , model.CategoryName);
 
-            return Redirect("MyJobs");
+            return Redirect(Constants.myJobs);
         }
 
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult MyJobs()
         {
             var currentUserName = this.User.Identity.Name;
 
+            this.jobService.FinishJobs(currentUserName);
+
             var waitingForCompanyJobs = this.jobService.GetJobs(currentUserName, JobStatus.WaitingForCompany);
 
             var inProgressJobs = this.jobService.GetJobs(currentUserName, JobStatus.InProgress);
+
 
             var finishedJobs = this.jobService.GetJobs(currentUserName, JobStatus.Finished);
 
@@ -88,15 +90,17 @@ namespace Project.Web.Areas.User.Controllers
             var job = this.jobService.GetJob(id);
             if (job == null)
             {
-                return Redirect("~/Home/Index");
+                return Redirect(Constants.homeIndexUrl);
             }
-
+            
             var model = new JobDetailsViewModel
             {
                 Id = id,
+                Contract = job.Contract,
                 Title = job.Title,
+                Category = job.Category,
                 Address = job.Address,
-                CompanyName = job.Company?.Name ?? "No Company",
+                Company = job.Company,
                 Description = job.Description,
                 Price = job.Price,
                 Status = job.Status,
@@ -109,7 +113,7 @@ namespace Project.Web.Areas.User.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult Offers(string id)
         {
            var offers =  this.offerService.GetJobOffers(id);

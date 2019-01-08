@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common;
 using Project.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Project.Web.Areas.User.Controllers
 {
-    [Area("User")]
+    [Area(Constants.userRoleName)]
     public class OfferController:Controller
     {
         private IOfferService offerService;
@@ -20,24 +17,24 @@ namespace Project.Web.Areas.User.Controllers
             this.jobService = jobService;
         }
 
-        [Authorize(Roles ="User")]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult AcceptOffer(string id)
         {
            var offer = this.offerService.GetOffer(id);
             if (offer == null)
             {
-                return this.Redirect("/");
+                return this.Redirect(Constants.homeUrl);
             }
 
            var result = this.jobService.AcceptOffer(offer);
 
             if (!result)
             {
-                return this.Redirect("/");
+                return this.Redirect(Constants.homeUrl);
 
             }
 
-            return this.Redirect($"~/User/Job/Details?id={offer.JobId}");
+            return this.Redirect(Constants.userJobDetails + offer.JobId);
         }
     }
 }
