@@ -23,7 +23,7 @@ namespace Project.Web.Areas.User.ViewModels
 
         public CompanyProfile Company { get; set; }
 
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         public string Description { get; set; }
 

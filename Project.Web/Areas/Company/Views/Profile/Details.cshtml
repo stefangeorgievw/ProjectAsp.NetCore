@@ -1,13 +1,22 @@
 ﻿@model Project.Web.Areas.Company.ViewModels.ProfileDetailsViewModel
-<div class="row form-control companyProfile">
+<div class="row form-control ">
     <div class="col">
         <h3 class="text-center">@Model.Name</h3>
         <hr />
-        <h5 id="element1">Raiting:<b>@Model.Rating.AverageRating.ToString("F1")</b>/5.0</h5>
-        <h5 id="element2">
-            Email:@Model.Email
-        </h5>
+        @for (int i = 0; i < 5; i++)
+        {
+            if (i <= Model.Rating.AverageRating)
+            {
+                <span class="fa fa-star checked"></span>
+            }
+            else
+            {
+                <span class="fa fa-star"></span>
+            }
 
+        }
+
+        <p>@Model.Rating.AverageRating.ToString("F1") average based on @Model.Rating.CountOfVotes reviews.</p>
 
 
         @if (Model.Rating.VotedUsers.FirstOrDefault(x => x.UserProfileId == ViewBag.Id) == null)
@@ -22,8 +31,15 @@
             </form>
         }
 
+
+
     </div>
-    <h5 class="workingAreas">Working Areas:@Model.Categories</h5>
+    <div class=" form-control half-width  d-flex justify-content-between jobDetailsInfo">
+        <h5>
+            Email:@Model.Email
+        </h5>
+        <h5>Working Areas:@Model.Categories</h5>
+    </div>
 
     <p class="text-center">@Model.Description</p>
 

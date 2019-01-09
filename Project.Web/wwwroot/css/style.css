@@ -9,6 +9,7 @@
 
 .myjobs{
     margin-right :12px;
+    
 }
 
 
@@ -26,14 +27,14 @@
 
 #element1 {
     display: inline-block;
-    margin-right: 300px;
-    width: 200px;
+    margin-right: 100px;
+    width: 150px;
  
 }
 
 #element2 {
     display: inline-block;
-    width: 200px;
+    width: 300px;
  
 }
 
@@ -53,7 +54,36 @@
     border-top : 3px;
 }
 
-.customFooter {
-    background-color: #F2F2F2;
-   
+
+
+html, body {
+    height: 100%;
+    margin: 0;
 }
+
+.wrapper {
+    height: 100%;
+}
+
+.footer {
+    height: 8%;
+    background: silver;
+    width: 100%;
+    background-color: #F2F2F2;
+}
+
+.jobDetailsInfo {
+    margin-bottom: 4px;
+    border-left-width:0px;
+    border-right-width:0px;
+}
+
+.fa {
+    font-size: 25px;
+}
+
+.checked {
+    color: orange;
+}
+
+

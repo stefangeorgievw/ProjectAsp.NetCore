@@ -47,7 +47,7 @@ namespace Project.Web
 
             services.AddIdentity<Account, IdentityRole>(options =>
             {
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireLowercase = false;

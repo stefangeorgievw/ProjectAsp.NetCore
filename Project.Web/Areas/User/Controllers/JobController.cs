@@ -27,7 +27,7 @@ namespace Project.Web.Areas.User.Controllers
             this.offerService = offerService;
         }
 
-        [Authorize(Roles = Constants.companyRoleName)]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult Create()
         {
             var categoriesNames = this.categoryService.GetAllCategoriesNames();
@@ -41,12 +41,13 @@ namespace Project.Web.Areas.User.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.companyRoleName)]
+        [Authorize(Roles = Constants.userRoleName)]
         public IActionResult Create(CreateJobInputModel model)
         {
             if (!ModelState.IsValid || this.categoryService.IsCategoryValid(model.CategoryName) == false)
             {
                 return this.View(model);
+                
             }
 
 
@@ -104,7 +105,7 @@ namespace Project.Web.Areas.User.Controllers
                 Description = job.Description,
                 Price = job.Price,
                 Status = job.Status,
-                Username = job.User.Account.UserName,
+                Email = job.User.Account.Email,
                 StartDate = job.StartDate,
                 EndDate = job.EndDate,
             };

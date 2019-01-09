@@ -33,7 +33,7 @@ namespace Project.Web.ViewModels.Account
         public string Name { get; set; }
 
         [Required]
-        [MinLength(30), MaxLength(200)]
+        [MinLength(30), MaxLength(300)]
         public string Description { get; set; }
 
         [Required]
