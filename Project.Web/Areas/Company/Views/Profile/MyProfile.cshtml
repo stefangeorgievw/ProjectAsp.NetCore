@@ -6,7 +6,7 @@
 
         @for (int i = 0; i < 5; i++)
         {
-            if (i <= Model.Rating.AverageRating)
+            if (i < Model.Rating.AverageRating)
             {
                 <span class="fa fa-star checked"></span>
             }
@@ -18,23 +18,18 @@
         }
 
         <p>@Model.Rating.AverageRating.ToString("F1") average based on @Model.Rating.CountOfVotes reviews.</p>
-        
+
         <div class=" form-control half-width  d-flex justify-content-between jobDetailsInfo">
-            <h5 >
+            <h5>
                 Email:@Model.Email
             </h5>
             <h5>Working Areas:@Model.Categories</h5>
         </div>
 
     </div>
-    
 
+
+        <h5 class="text-center">@Model.Description</h5>
    
-
-
-    <p class="text-center">@Model.Description</p>
-
-
-
 
 </div>
