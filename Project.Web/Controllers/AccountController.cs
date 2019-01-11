@@ -22,12 +22,21 @@ namespace Project.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (this.User.IsInRole(Constants.companyRoleName) || this.User.IsInRole(Constants.userRoleName))
+            {
+                return this.Redirect(Constants.homeUrl);
+            }
             return View();
         }
 
 
         public IActionResult RegisterUser()
         {
+            if (this.User.IsInRole(Constants.companyRoleName) || this.User.IsInRole(Constants.userRoleName))
+            {
+                return this.Redirect(Constants.homeUrl);
+            }
+
             return this.View();
         }
 
@@ -50,6 +59,11 @@ namespace Project.Web.Controllers
 
         public IActionResult RegisterCompany()
         {
+            if (this.User.IsInRole(Constants.companyRoleName) || this.User.IsInRole(Constants.userRoleName))
+            {
+                return this.Redirect(Constants.homeUrl);
+            }
+
             var categoriesNames = this.categoryService.GetAllCategoriesNames();
             var model = new CategoryNameViewModel()
             {
@@ -87,6 +101,11 @@ namespace Project.Web.Controllers
 
         public IActionResult Login()
         {
+            if (this.User.IsInRole(Constants.companyRoleName) || this.User.IsInRole(Constants.userRoleName))
+            {
+                return this.Redirect(Constants.homeUrl);
+            }
+
             return this.View();
         }
 
